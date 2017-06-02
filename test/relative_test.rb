@@ -1,4 +1,4 @@
-# encoding: UTF-8 
+# encoding: UTF-8
 require 'test_helper'
 
 class RelativeTest < Minitest::Test
@@ -30,9 +30,8 @@ class RelativeTest < Minitest::Test
     refute FasterPath.relative? 'A:/a'
   end if File.dirname("A:") == "A:." # DOSISH_DRIVE_LETTER
 
-
   def test_relative_with_unicode_2014
-    ['/—','/—a','—/..','a—','a/b—'].each do |string|
+    ['/—', '/—a', '—/..', 'a—', 'a/b—'].each do |string|
       assert_equal(*result_pair(string))
     end
   end
