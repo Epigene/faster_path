@@ -22,3 +22,15 @@ require 'minitest/reporters'
 require 'color_pound_spec_reporter'
 
 Minitest::Reporters.use! [ColorPoundSpecReporter.new]
+
+def result_pair(str)
+  pn = Pathname.new(str)
+  [
+    if pn.method(target_method).arity == 0
+      pn.send(target_method)
+    else
+      pn.send(target_method, str)
+    end,
+    FasterPath.send(target_method, str)
+  ]
+end

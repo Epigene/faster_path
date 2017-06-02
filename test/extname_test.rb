@@ -1,6 +1,8 @@
+# encoding: UTF-8 
 require 'test_helper'
 
 class ExtnameTest < Minitest::Test
+  def target_method; :extname end
   def test_nil_inputs
     assert_nil FasterPath.extname(nil)
   end
@@ -29,29 +31,29 @@ class ExtnameTest < Minitest::Test
   end
 
   def test_substitutability_of_rust_and_ruby_impls
-    result_pair = lambda do |str|
-      [
-          File.send(:extname, str),
-          FasterPath.extname(str)
-      ]
-    end
-    assert_equal( *result_pair.("foo.rb")                    )
-    assert_equal( *result_pair.("/foo/bar.rb")               )
-    assert_equal( *result_pair.("/foo.rb/bar.c")             )
-    assert_equal( *result_pair.("bar")                       )
-    assert_equal( *result_pair.(".bashrc")                   )
-    assert_equal( *result_pair.("./foo.bar/baz")             )
-    assert_equal( *result_pair.(".app.conf")                 )
-    assert_equal( *result_pair.("")                          )
-    assert_equal( *result_pair.(".")                         )
-    assert_equal( *result_pair.("/")                         )
-    assert_equal( *result_pair.("/.")                        )
-    assert_equal( *result_pair.("..")                        )
-    assert_equal( *result_pair.("...")                       )
-    assert_equal( *result_pair.("....")                      )
-    assert_equal( *result_pair.(".foo.")                     )
-    assert_equal( *result_pair.("foo.")                      )
-    assert_equal( *result_pair.("foo.rb/")                   )
-    assert_equal( *result_pair.("foo.rb//")                  )
+    assert_equal( *result_pair("foo.rb")                    )
+    assert_equal( *result_pair("/foo/bar.rb")               )
+    assert_equal( *result_pair("/foo.rb/bar.c")             )
+    assert_equal( *result_pair("bar")                       )
+    assert_equal( *result_pair(".bashrc")                   )
+    assert_equal( *result_pair("./foo.bar/baz")             )
+    assert_equal( *result_pair(".app.conf")                 )
+    assert_equal( *result_pair("")                          )
+    assert_equal( *result_pair(".")                         )
+    assert_equal( *result_pair("/")                         )
+    assert_equal( *result_pair("/.")                        )
+    assert_equal( *result_pair("..")                        )
+    assert_equal( *result_pair("...")                       )
+    assert_equal( *result_pair("....")                      )
+    assert_equal( *result_pair(".foo.")                     )
+    assert_equal( *result_pair("foo.")                      )
+    assert_equal( *result_pair("foo.rb/")                   )
+    assert_equal( *result_pair("foo.rb//")                  )
+  end
+
+  def test_extname_with_unicode_2014
+    assert_equal( *result_pair("foo—.rb//")                  )
+    assert_equal( *result_pair("./f—oo.bar/baz")             )
+    assert_equal( *result_pair(".ba—shrc")                   )
   end
 end

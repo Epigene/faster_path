@@ -1,3 +1,4 @@
+# encoding: UTF-8 
 require 'test_helper.rb'
 require 'rubygems/installer_test_case'
 require 'rubygems/package'

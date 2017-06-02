@@ -1,13 +1,8 @@
+# encoding: UTF-8
 require 'test_helper'
 
 class AddTrailingSeparatorTest < Minitest::Test
-  def result_pair(str)
-    [
-      Pathname.allocate.send(:add_trailing_separator, str),
-      FasterPath.add_trailing_separator(str)
-    ]
-  end
-
+  def target_method; :add_trailing_separator end
   def test_it_handles_nil
     refute FasterPath.add_trailing_separator nil
   end
@@ -83,5 +78,9 @@ class AddTrailingSeparatorTest < Minitest::Test
     assert_equal(*result_pair("http://www.example.com"))
     assert_equal(*result_pair("foor for thought"))
     assert_equal(*result_pair("2gb63b@%TY25GHawefb3/g3qb"))
+  end
+
+  def test_add_trailing_separator_with_unicode_2014
+    assert_equal(*result_pair("2g—63b@%TY25GHawe—b3/g3qb"))
   end
 end

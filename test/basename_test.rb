@@ -1,3 +1,4 @@
+# encoding: UTF-8
 require 'test_helper'
 
 class BasenameTest < Minitest::Test
@@ -69,5 +70,10 @@ class BasenameTest < Minitest::Test
     assert_equal File.basename('/'),              '/'
     assert_equal File.basename('//'),             '/'
     assert_equal File.basename('//dir///base//'), 'base'
+  end
+
+  def test_basename_handles_unicode_2014
+    assert_equal File.basename('/home/gumby/work/r—y.rb'),       'r—y.rb'
+    assert_equal File.basename('/home/gumby/work/ruby.—', '.—'), 'ruby'
   end
 end

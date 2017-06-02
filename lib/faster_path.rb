@@ -1,3 +1,4 @@
+# encoding: UTF-8
 require "faster_path/version"
 require 'pathname'
 require "ffi"

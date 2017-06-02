@@ -1,6 +1,8 @@
+# encoding: UTF-8
 require 'test_helper'
 
 class DirnameTest < Minitest::Test
+  def target_method; :dirname end # unused as of yet
   def test_it_returns_all_the_components_of_filename_except_the_last_one
     assert_equal('/home', FasterPath.dirname('/home/jason'))
     assert_equal('/home/jason', FasterPath.dirname('/home/jason/poot.txt'))
@@ -47,5 +49,10 @@ class DirnameTest < Minitest::Test
     assert_equal("/foo", FasterPath.dirname("/foo/./"))
     assert_equal("/foo/..", FasterPath.dirname("/foo/../."))
     assert_equal("foo", FasterPath.dirname("foo/../"))
+  end
+
+  def test_dirname_with_unicode_2014
+    assert_equal("/f—oo/..", FasterPath.dirname("/f—oo/../."))
+    assert_equal("f—oo", FasterPath.dirname("f—oo/../"))
   end
 end

@@ -1,6 +1,8 @@
+# encoding: UTF-8
 require 'test_helper'
 
 class ChopBasenameTest < Minitest::Test
+  def target_method; :chop_basename end
   def test_nil_inputs
     assert_nil FasterPath.chop_basename(nil)
   end
@@ -74,59 +76,47 @@ class ChopBasenameTest < Minitest::Test
   end
 
   def test_of_ayes
-    result_pair = lambda do |str|
-      [
-        Pathname.new("").send(:chop_basename, str),
-        FasterPath.chop_basename(str)
-      ]
-    end
-    assert_equal( *result_pair.("aa/a//a")                 )
-    assert_equal( *result_pair.("/aaa/a//a")               )
-    assert_equal( *result_pair.("/aaa/a//a/a")             )
-    assert_equal( *result_pair.("/aaa/a//a/a")             )
-    assert_equal( *result_pair.("a//aaa/a//a/a")           )
-    assert_equal( *result_pair.("a//aaa/a//a/aaa")         )
-    assert_equal( *result_pair.("/aaa/a//a/aaa/a")         )
-    assert_equal( *result_pair.("a//aaa/a//a/aaa/a")       )
-    assert_equal( *result_pair.("a//aaa/a//a/aaa////")     )
-    assert_equal( *result_pair.("a/a//aaa/a//a/aaa/a")     )
-    assert_equal( *result_pair.("////a//aaa/a//a/aaa/a")   )
-    assert_equal( *result_pair.("////a//aaa/a//a/aaa////") )
+    assert_equal( *result_pair("aa/a//a")                 )
+    assert_equal( *result_pair("/aaa/a//a")               )
+    assert_equal( *result_pair("/aaa/a//a/a")             )
+    assert_equal( *result_pair("/aaa/a//a/a")             )
+    assert_equal( *result_pair("a//aaa/a//a/a")           )
+    assert_equal( *result_pair("a//aaa/a//a/aaa")         )
+    assert_equal( *result_pair("/aaa/a//a/aaa/a")         )
+    assert_equal( *result_pair("a//aaa/a//a/aaa/a")       )
+    assert_equal( *result_pair("a//aaa/a//a/aaa////")     )
+    assert_equal( *result_pair("a/a//aaa/a//a/aaa/a")     )
+    assert_equal( *result_pair("////a//aaa/a//a/aaa/a")   )
+    assert_equal( *result_pair("////a//aaa/a//a/aaa////") )
   end
 
   def test_of_bees
-    result_pair = lambda do |str|
-      [
-        Pathname.new("").send(:chop_basename, str),
-        FasterPath.chop_basename(str)
-      ]
-    end
-    assert_equal( *result_pair.(".")                        )
-    assert_equal( *result_pair.(".././")                    )
-    assert_equal( *result_pair.(".///..")                   )
-    assert_equal( *result_pair.("/././/")                   )
-    assert_equal( *result_pair.("//../././")                )
-    assert_equal( *result_pair.(".///.../..")               )
-    assert_equal( *result_pair.("/././/.//.")               )
-    assert_equal( *result_pair.("/...//../././")            )
-    assert_equal( *result_pair.("/..///.../..//")           )
-    assert_equal( *result_pair.("/./././/.//...")           )
-    assert_equal( *result_pair.("/...//.././././/.")        )
-    assert_equal( *result_pair.("./../..///.../..//")       )
-    assert_equal( *result_pair.("///././././/.//...")       )
-    assert_equal( *result_pair.("./../..///.../..//././")   )
-    assert_equal( *result_pair.("///././././/.//....///")   )
+    assert_equal( *result_pair(".")                        )
+    assert_equal( *result_pair(".././")                    )
+    assert_equal( *result_pair(".///..")                   )
+    assert_equal( *result_pair("/././/")                   )
+    assert_equal( *result_pair("//../././")                )
+    assert_equal( *result_pair(".///.../..")               )
+    assert_equal( *result_pair("/././/.//.")               )
+    assert_equal( *result_pair("/...//../././")            )
+    assert_equal( *result_pair("/..///.../..//")           )
+    assert_equal( *result_pair("/./././/.//...")           )
+    assert_equal( *result_pair("/...//.././././/.")        )
+    assert_equal( *result_pair("./../..///.../..//")       )
+    assert_equal( *result_pair("///././././/.//...")       )
+    assert_equal( *result_pair("./../..///.../..//././")   )
+    assert_equal( *result_pair("///././././/.//....///")   )
   end
 
   def test_of_seas
-    result_pair = lambda do |str|
-      [
-        Pathname.new("").send(:chop_basename, str),
-        FasterPath.chop_basename(str)
-      ]
-    end
-    assert_equal( *result_pair.("http://www.example.com")   )
-    assert_equal( *result_pair.("foor for thought")         )
-    assert_equal( *result_pair.("2gb63b@%TY25GHawefb3/g3qb"))
+    assert_equal( *result_pair("http://www.example.com")   )
+    assert_equal( *result_pair("foor for thought")         )
+    assert_equal( *result_pair("2gb63b@%TY25GHawefb3/g3qb"))
+  end
+
+  def test_of_unicode_2014
+    assert_equal( *result_pair("http://www.ex—mple.com")   )
+    assert_equal( *result_pair("foor for — thought") )
+    assert_equal( *result_pair("2gb63b@%TY—GHawefb3/g3qb"))
   end
 end

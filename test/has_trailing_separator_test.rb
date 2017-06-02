@@ -1,13 +1,8 @@
+# encoding: UTF-8 
 require 'test_helper'
 
 class HasTrailingSeparatorTest < Minitest::Test
-  def result_pair(str)
-    [
-      Pathname.allocate.send(:has_trailing_separator?, str),
-      FasterPath.has_trailing_separator?(str)
-    ]
-  end
-
+  def target_method; :has_trailing_separator? end
   def test_has_trailing_separator_against_pathname_implementation1
     assert_equal(*result_pair(''))
     assert_equal(*result_pair('/'))
@@ -60,5 +55,11 @@ class HasTrailingSeparatorTest < Minitest::Test
 
   def test_has_trailing_separator_with_nil
     refute FasterPath.has_trailing_separator?(nil)
+  end
+
+  def test_has_trailing_separator_with_unicode_2014
+    assert_equal(*result_pair("http://www.ex—ample.com"))
+    assert_equal(*result_pair("foor for thou—ght"))
+    assert_equal(*result_pair("2gb63b@%TY25G—Hawefb3/g3qb"))
   end
 end

@@ -68,12 +68,12 @@ task test: [:minitest, :lint] do |_t|
 end
 
 desc "Full mspec results w/o encoding"
-task :mspec_full do
+task mspec_full: :build_lib do
   exec %(bash -c "TEST_MONKEYPATCHES=true WITH_REGRESSION=true mspec --format spec core/file/basename core/file/extname core/file/dirname library/pathname")
 end
 
 desc "Full mspec results w/ encoding"
-task :mspec_encoding_full do
+task mspec_encoding_full: :build_lib do
   exec %(bash -c "ENCODING=1 TEST_MONKEYPATCHES=true WITH_REGRESSION=true mspec --format spec core/file/basename core/file/extname core/file/dirname library/pathname")
 end
 
